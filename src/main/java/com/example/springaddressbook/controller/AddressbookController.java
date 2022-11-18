@@ -40,13 +40,7 @@ public class AddressbookController {
         ResponseDTO responseDTO = new ResponseDTO("Persons who have this first name are!!", person);
         return new ResponseEntity<>(responseDTO, HttpStatus.FOUND);
     }
-    //Get findout Persons of same City using Custom Query in Repository
-    @GetMapping("/getBySameCity")
-    public ResponseEntity<ResponseDTO> getBySameCity(@RequestParam String city) {
-        List<AddressBook> person = addressBookServiceI.findByCity(city);
-        ResponseDTO responseDTO = new ResponseDTO("Persons with same city are!!", person);
-        return new ResponseEntity<>(responseDTO, HttpStatus.FOUND);
-    }
+
     //Find person by Zipcode using Custom Query in Repository
     @GetMapping("/orderByZipcode")
     public ResponseEntity<ResponseDTO> orderByZipcode() {
@@ -73,11 +67,5 @@ public class AddressbookController {
         ResponseDTO responseDTO = new ResponseDTO("Data deleted Successfully in Repo", addressBook);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
-    //Delete all Details From DataBase
-    @DeleteMapping("delete-all")
-    public ResponseEntity<ResponseDTO> deleteAll() {
-        List<AddressBook> addressBook = addressBookServiceI.deleteAll();
-        ResponseDTO responseDTO = new ResponseDTO("All data deleted in the Repo", addressBook);
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-    }
+
 }

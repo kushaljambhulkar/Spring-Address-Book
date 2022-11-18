@@ -16,14 +16,14 @@ public class AddressBookService implements AddressBookServiceI {
     @Autowired
     AddressBookRepository addressBookRepository;
 
-
+    //Method to insert Data In the DataBase
     @Override
     public AddressBook addData(AddressBookDTO addressBookDTO) {
         AddressBook addAddressBook = new AddressBook(addressBookDTO);
         addressBookRepository.save(addAddressBook);
         return addAddressBook;
     }
-
+    //Get ID from AddressBook
     @Override
     public Optional<AddressBook> getById(int Id) {
         Optional<AddressBook> optional = addressBookRepository.findById(Id);
@@ -33,7 +33,7 @@ public class AddressBookService implements AddressBookServiceI {
         }else
             throw new AddressBookException("Address-book of this id is not present");
     }
-
+    //Get find person by firstName
     @Override
     public List<AddressBook> findByFirstName(String firstName) {
         List<AddressBook> person = addressBookRepository.findAddressBookByFirstName(firstName);
@@ -43,18 +43,7 @@ public class AddressBookService implements AddressBookServiceI {
             throw new AddressBookException("Person is not exist of this name!!!");
         }
     }
-
-    @Override
-    public List<AddressBook> findByCity(String city) {
-        List<AddressBook> personOfSameCity = addressBookRepository.
-                personsOfSameCity(city);
-        if (personOfSameCity.isEmpty()) {
-            throw new AddressBookException("There are no Persons in the same city");
-        } else {
-            return personOfSameCity;
-        }
-    }
-
+    //Find person by Zipcode using Custom Query in Repository
     @Override
     public List<AddressBook> orderByZipcode() {
         List<AddressBook> orderedList = addressBookRepository.orderByZipcode();
@@ -64,15 +53,15 @@ public class AddressBookService implements AddressBookServiceI {
             return orderedList;
         }
     }
-
+    //Get all the data of AddressBook from DataBase
     @Override
     public List<AddressBook> getData() {
         if (addressBookRepository.findAll().isEmpty()){
-            throw new AddressBookException("No Address-book Present in the database");
+            throw new AddressBookException("No person Present in the database");
         }else
             return addressBookRepository.findAll();
     }
-
+    //Update the details of person in DataBase
     @Override
     public AddressBook updateData(AddressBookDTO addressBookDTO, int Id) {
         Optional<AddressBook> optional = addressBookRepository.findById(Id);
@@ -81,10 +70,10 @@ public class AddressBookService implements AddressBookServiceI {
             addressBookRepository.save(updateAddressBook);
             return updateAddressBook;
         } else {
-            throw new AddressBookException("Address-book not present in the list to update");
+            throw new AddressBookException("person not present in the list to update");
         }
     }
-
+    //Delete Data By using Id
     @Override
     public List<AddressBook> deleteById(int Id) {
         if (addressBookRepository.existsById(Id)){
@@ -93,13 +82,5 @@ public class AddressBookService implements AddressBookServiceI {
         } else {
             throw new AddressBookException("Id is not present to delete in database");
         }
-    }
-
-    @Override
-    public List<AddressBook> deleteAll() {
-        if (addressBookRepository.findAll().isEmpty()){
-            throw new AddressBookException("No address-book Present to delete");
-        } else addressBookRepository.deleteAll();
-        return addressBookRepository.findAll();
     }
 }
